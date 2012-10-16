@@ -3,13 +3,14 @@ var twitter = require('ntwitter'),
     tweets = [];
 
 http.createServer(function(req, res) {
+    // If we've already cached some tweets, use the cached array.
     if (tweets.length) {
-        writeTweets(res, tweets);
+        writeTweets(req, res, tweets);
 
         return;
     }
 
-    // Else
+    // Else, request them from Twitter.
     var twit = new twitter({
         consumer_key: '8ePxZShNrr4kEWbPKg',
         consumer_secret: 'ZB4jpSNDATbc525XLhOeWbLUcPDqTqetiKUit6ql08',
@@ -17,16 +18,16 @@ http.createServer(function(req, res) {
         access_token_secret: 'm1m6VWZH4V7rhQq6WeppdYfrbQ9B2ZVyzMlwctMk8o'
     });
 
-    twit.verifyCredentials(function(err, data) {
-           //console.log(data);
-        }).getUserTimeline({ trim_user: true, exclude_replies: true, count: 50 }, function(err, data) {
+    twit.verifyCredentials(function(err, data) { })
+        .getUserTimeline({ trim_user: true, exclude_replies: true, count: 50 }, function(err, data) {
             for (var i = 0; i < data.length; i++) {
                 tweets.push({ id_str: data[i].id_str, text: data[i].text });
             }
 
+            // Set a timer to expire the tweets cache in 10 minutes.
             setTimeout(clearTweets, 1000 * 60 * 10);
 
-            writeTweets(res, tweets);
+            writeTweets(req, res, tweets);
         });
 
 }).listen(process.env.port || 8080);
@@ -35,13 +36,18 @@ function clearTweets() {
     tweets = [];
 }
 
-function writeTweets(res, tweets) {
-    res.writeHead(200, { 'Content-Type': 'text/plain'});
+function writeTweets(req, res, tweets) {
+    res.writeHead(200, { 'Content-Type': 'application/json'});
+
+    var url = require('url').parse(req.url, true);
+
+    if (url.query.callback)
+        res.write(url.query.callback + '(');
 
     res.write(JSON.stringify(tweets));
-//    for (var i = 0; i < tweets.length; i++) {
-//        res.write(tweets[i]);
-//    }
+
+    if (url.query.callback)
+        res.write(');');
 
     res.end();
 }
