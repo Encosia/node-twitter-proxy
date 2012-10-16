@@ -9,7 +9,7 @@ nconf.env()
 http.createServer(function(req, res) {
     // If we've already cached some tweets, use the cached array.
     if (tweets.length) {
-        writeTweets(req, res, tweets);
+        writeTweets(req, res);
 
         return;
     }
@@ -39,11 +39,11 @@ http.createServer(function(req, res) {
             // Set a timer to expire the tweets cache in 10 minutes.
             setTimeout(function() { tweets = [] }, 1000 * 60 * 10);
 
-            writeTweets(req, res, tweets);
+            writeTweets(req, res);
         });
 }).listen(process.env.port || 8080);
 
-function writeTweets(req, res, tweets) {
+function writeTweets(req, res) {
     res.writeHead(200, {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
