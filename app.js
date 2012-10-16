@@ -61,7 +61,3 @@ function writeTweets(req, res) {
 
     res.end();
 }
-
-//<blockquote class="twitter-tweet"><p>Trying out a Twitter Timeline(tm)(r)(c) on my sidebar instead of the custom code I used to use.
-// Annoying how inflexible Twitter is becoming.</p>&mdash; Dave Ward (@Encosia) <a href="https://twitter.com/Encosia/status/257995927086833665"
-// data-datetime="2012-10-16T00:06:37+00:00">October 16, 2012</a></blockquote>
