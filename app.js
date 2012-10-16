@@ -1,4 +1,9 @@
-var twitter = require('ntwitter');
+var twitter = require('ntwitter'),
+    http = require('http');
+
+http.createServer(function(req, res) {
+    res.write('hi');
+}).listen(80, '127.0.0.1');
 
 var twit = new twitter({
     consumer_key: '8ePxZShNrr4kEWbPKg',
