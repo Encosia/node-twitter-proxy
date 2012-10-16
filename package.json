@@ -2,6 +2,7 @@
     "name": "latestTweet",
     "author": "Dave Ward",
     "version": "0.5.0",
+    "keywords": ["twitter", "oAuth"],
     "description": "A proxy to oAuth with Twitter, get your latest tweets, and make them available via JSONP and CORS.",
     "dependencies": {
         "nconf": ">= 0.0.1",
