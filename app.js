@@ -1,6 +1,10 @@
 var twitter = require('ntwitter'),
     http = require('http'),
+    nconf = require('nconf'),
     tweets = [];
+
+nconf.env()
+     .file({ file: 'config.json' });
 
 http.createServer(function(req, res) {
     // If we've already cached some tweets, use the cached array.
@@ -12,14 +16,22 @@ http.createServer(function(req, res) {
 
     // Else, request them from Twitter.
     var twit = new twitter({
-        consumer_key: process.env.consumer_key,
-        consumer_secret: process.env.consumer_secret,
-        access_token_key: process.env.access_token_key,
-        access_token_secret: process.env.access_token_secret
+        consumer_key: nconf.get('consumer_key'),
+        consumer_secret: nconf.get('consumer_secret'),
+        access_token_key: nconf.get('access_token_key'),
+        access_token_secret: nconf.get('access_token_secret')
     });
 
     twit.verifyCredentials(function(err, data) { })
-        .getUserTimeline({ trim_user: true, exclude_replies: true, count: 50 }, function(err, data) {
+        .getUserTimeline({ trim_user: true, exclude_replies: true, count: 25 }, function(err, data) {
+            if (err) {
+                res.writeHead(500);
+
+                res.end();
+
+                return;
+            }
+
             for (var i = 0; i < data.length; i++) {
                 tweets.push({ id_str: data[i].id_str, text: data[i].text });
             }
@@ -29,7 +41,6 @@ http.createServer(function(req, res) {
 
             writeTweets(req, res, tweets);
         });
-
 }).listen(process.env.port || 8080);
 
 function writeTweets(req, res, tweets) {
