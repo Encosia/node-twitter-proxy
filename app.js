@@ -3,7 +3,7 @@ var twitter = require('ntwitter'),
 
 http.createServer(function(req, res) {
     res.write('hi');
-}).listen(80, '127.0.0.1');
+}).listen(process.env.port || 8080);
 
 var twit = new twitter({
     consumer_key: '8ePxZShNrr4kEWbPKg',
