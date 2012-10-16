@@ -37,7 +37,10 @@ function clearTweets() {
 }
 
 function writeTweets(req, res, tweets) {
-    res.writeHead(200, { 'Content-Type': 'application/json'});
+    res.writeHead(200, {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+    });
 
     var url = require('url').parse(req.url, true);
 
