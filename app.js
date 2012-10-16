@@ -15,7 +15,7 @@ http.createServer(function(req, res) {
         consumer_key: process.env.consumer_key,
         consumer_secret: process.env.consumer_secret,
         access_token_key: process.env.access_token_key,
-        access_token_secret: process.env.access_token_secret 
+        access_token_secret: process.env.access_token_secret
     });
 
     twit.verifyCredentials(function(err, data) { })
@@ -25,16 +25,12 @@ http.createServer(function(req, res) {
             }
 
             // Set a timer to expire the tweets cache in 10 minutes.
-            setTimeout(clearTweets, 1000 * 60 * 10);
+            setTimeout(function() { tweets = [] }, 1000 * 60 * 10);
 
             writeTweets(req, res, tweets);
         });
 
 }).listen(process.env.port || 8080);
-
-function clearTweets() {
-    tweets = [];
-}
 
 function writeTweets(req, res, tweets) {
     res.writeHead(200, {
