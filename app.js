@@ -12,10 +12,10 @@ http.createServer(function(req, res) {
 
     // Else, request them from Twitter.
     var twit = new twitter({
-        consumer_key: '8ePxZShNrr4kEWbPKg',
-        consumer_secret: 'ZB4jpSNDATbc525XLhOeWbLUcPDqTqetiKUit6ql08',
-        access_token_key: '11680672-3vnJLvK1G2d8zDA5PrVWUYwnDKbPP05C2VzC2V1D7',
-        access_token_secret: 'm1m6VWZH4V7rhQq6WeppdYfrbQ9B2ZVyzMlwctMk8o'
+        consumer_key: process.env.consumer_key,
+        consumer_secret: process.env.consumer_secret,
+        access_token_key: process.env.access_token_key,
+        access_token_secret: process.env.access_token_secret 
     });
 
     twit.verifyCredentials(function(err, data) { })
