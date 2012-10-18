@@ -33,7 +33,7 @@ http.createServer(function(req, res) {
             }
 
             for (var i = 0; i < data.length; i++) {
-                tweets.push({ id_str: data[i].id_str, text: data[i].text });
+                tweets.push(data[i]);
             }
 
             // Set a timer to expire the tweets cache in 10 minutes.
