@@ -23,7 +23,7 @@ http.createServer(function(req, res) {
     });
 
     twit.verifyCredentials(function(err, data) { })
-        .getUserTimeline({ trim_user: true, exclude_replies: true, count: 25 }, function(err, data) {
+        .getUserTimeline({ exclude_replies: true, count: 25 }, function(err, data) {
             if (err) {
                 res.writeHead(500);
 
