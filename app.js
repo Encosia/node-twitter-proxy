@@ -46,7 +46,7 @@ http.createServer(function(req, res) {
 function writeTweets(req, res) {
     res.writeHead(200, {
         'Content-Type': 'application/json',
-        'Cache-Control': 'max-age=600',
+        'Cache-Control': 'public, max-age=600',
         'Access-Control-Allow-Origin': '*'
     });
 
